@@ -27,6 +27,7 @@ select * from Employees_details;
 rename table Employees_details to Employees;
 select * from employees;
 
+
 -- Altering a Table ( add column) 
 alter table employees add column Salary decimal(10,2);
 alter table employees add column Emp_state varchar(100);
@@ -39,6 +40,7 @@ alter table employees modify column Email_id varchar(150);
 -- rename a column  
 alter table employees rename column Date_of_dirth to Date_of_Birth ;
 select * from employees;
+
 -- To move a column after another column (e.g., move salary after Gender):
 alter table employees modify column Salary decimal(10,2) after Gender;
 select * from employees;
@@ -340,13 +342,25 @@ select Employees.Emp_name, employees.gender, employees.email_id , empaddress.cit
 from employees right join empaddress 
 on employees.emp_id = empaddress.emp_id;
 
+-- Pratice 
+-- use user_details;
+-- select * from employees;
+-- select * from empaddress; 
+-- INNER JOIN
+-- select  employees.emp_id as Emp_id , employees.emp_name, empaddress.id as empadds_id , empaddress.city , empaddress.state from employees inner join empaddress on employees.emp_id = empaddress.emp_id; 
+
+-- LEFT JOIN 
+-- select employees.emp_id as empid , employees.emp_name , empaddress.id as addsid ,empaddress.state from employees left join empaddress on employees.emp_id = empaddress.emp_id;
+
+-- RIGHT JOIN
+-- select employees.emp_id as empid , employees.emp_name , empaddress.id as addsid ,empaddress.state from employees right join empaddress on employees.emp_id = empaddress.emp_id;
 
 -- SQL UNION and UNION ALL joins
 -- Step 1: Create the admin_users Table
 
-use User_details;
-select * from employees ;
-select * from admin_users;
+-- use User_details;
+-- select * from employees ;
+-- select * from admin_users;
 
 -- Step 1 : Use UNION to Combine Data - This returns a single list of unique names from both tables.
 select Emp_name from employees
@@ -384,5 +398,38 @@ union
 select name, salary, 'admin' as role from admin_users 
 order by salary desc ;
 
--- UNION      -   Combines results, removes duplicates
--- UNION ALL  -   Combines results, keeps duplicates
+
+-- Self JOIN in MySQL
+-- A Self JOIN is a regular join, but the table is joined with itself.
+
+-- Step 1: Add a referred_by_id Column
+use user_details;
+alter table employees add column referred_by_id int;
+
+-- Step 2: Insert Referral Data
+update employees set referred_by_id = 1 where emp_id in (3,5,7,9,11,13,15,17) ; 
+update employees set referred_by_id = 4 where emp_id in(10,16,18,20,22); -- Emp 4 referred emp 10,16,18,......
+update employees set referred_by_id = 20 where emp_id = 28; -- Emp 20 referred emp 28
+select * from employees;
+
+-- Step 3: Use a Self JOIN to Get Referrer Names using inner join 
+Select 
+a.Emp_id,
+a.Emp_Name as EmpName,
+b.emp_Name as Referred_by_Name 
+from 
+employees a inner join employees b
+on a.referred_by_id = b.Emp_id;
+
+-- Use a Self JOIN to Get Referrer Names using inner join 
+select 
+a.Emp_id,
+a.emp_Name as name,
+a.emp_name as referred_by_name,
+a.referred_by_id as Empid 
+from 
+employees a inner join employees b
+on a.referred_by_id = b.Emp_id;
+
+
+
