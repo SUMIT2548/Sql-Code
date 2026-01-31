@@ -359,10 +359,11 @@ on employees.emp_id = empaddress.emp_id;
 -- Step 1: Create the admin_users Table
 
 -- use User_details;
--- select * from employees ;
--- select * from admin_users;
+ use user_details;
+ select * from employees ;
+ select * from admin_users;
 
--- Step 1 : Use UNION to Combine Data - This returns a single list of unique names from both tables.
+-- Step 1 : Use UNION Example
 select Emp_name from employees
 union
 select name from admin_users;
@@ -398,6 +399,22 @@ union
 select name, salary, 'admin' as role from admin_users 
 order by salary desc ;
 
+-- pratice union and unionall 
+-- use user_details;
+-- select * from employees;
+-- add duplicate data both table (emoloyees and admin_users)
+insert into employees ( Emp_name, Email_id, Gender, Salary, Date_of_Birth) value ('Sumit saha','Sumit@example.com','Male','65000.00','1998-06-30');
+
+-- UNION -   Combines results, removes duplicates
+select Emp_id , Emp_name, salary, 'Employees' as role from Employees
+union
+select id  , name, salary, 'Admin' as role from Admin_users
+order by salary;
+
+-- UNION ALL  -   Combines results, keeps duplicates
+Select Emp_id, Emp_name, date_of_birth , 'employee' as role from employees
+union all
+select id, name, date_of_birth ,'admin' as role from admin_users;
 
 -- Self JOIN in MySQL
 -- A Self JOIN is a regular join, but the table is joined with itself.

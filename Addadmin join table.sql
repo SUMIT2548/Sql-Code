@@ -31,17 +31,25 @@ select Emp_name,gender, salary from employees
 union
 select name , gender , salary from admin_users;
 
--- UNION ALL Example
-select Emp_name,gender, salary from employees
-union all
-select name , gender , salary from admin_users;
-
 -- Using Order By with UNION
 
 select Emp_id , Emp_Name,salary, 'user' as role from employees 
 union 
 select id , name, salary,'admin' as role from admin_users
 order by salary desc;
+
+
+use user_details;
+select * from admin_users;
+insert into admin_users value ( 104, 'Sumit Saha','sumit@example.com','Male','1998-06-30','65000.00');
+update admin_users 
+set id = 30
+where name = 'sumit saha'; 
+
+-- UNION ALL Example ( duplicat value showing)
+select Emp_name,gender, salary from employees
+union all
+select name , gender , salary from admin_users;
 
 -- UNION      -   Combines results, removes duplicates
 -- UNION ALL  -   Combines results, keeps duplicates
