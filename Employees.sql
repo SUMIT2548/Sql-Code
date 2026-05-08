@@ -416,6 +416,7 @@ Select Emp_id, Emp_name, date_of_birth , 'employee' as role from employees
 union all
 select id, name, date_of_birth ,'admin' as role from admin_users;
 
+
 -- Self JOIN in MySQL
 -- A Self JOIN is a regular join, but the table is joined with itself.
 

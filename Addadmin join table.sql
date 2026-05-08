@@ -53,3 +53,6 @@ select name , gender , salary from admin_users;
 
 -- UNION      -   Combines results, removes duplicates
 -- UNION ALL  -   Combines results, keeps duplicates
+
+use user_details;
+update admin_users set id = 31 where Name = 'sumit saha';
