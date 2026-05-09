@@ -80,3 +80,18 @@ FROM
         INNER JOIN
     employees b ON a.referred_by_id = b.emp_id;
  
+ use user_details;
+ select * from empaddress;
+ 
+ -- MySql Views 
+ create view Emp_address as 
+ select * from empaddress where state = 'West Bengal';
+ 
+ select * from Emp_address;
+ 
+ update empaddress set street = 'Collage Street', city ='kolkata', state = 'West Bengal', pincode = 700020 where id = 3 ;
+ 
+ select * from Emp_address;
+ 
+ drop view emp_address;
+ 

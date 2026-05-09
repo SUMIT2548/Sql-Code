@@ -449,5 +449,24 @@ from
 employees a inner join employees b
 on a.referred_by_id = b.Emp_id;
 
+-- MySQL Views 
+-- A view in Mysql is a virtual table base on the result of a select query.
+select * from employees;
 
+-- Creating a View 
+create view HighSalary_Emp as
+select * from employees where  salary > 68000;
 
+-- Querying the View 
+select * from Highsalary_emp;
+-- View before update 
+select Emp_id, emp_Name, salary from Highsalary_emp;
+
+-- update emp salary in Employees table
+update employees set salary = salary + 9000 where Emp_name = 'Robert';
+
+-- View after update - its also updated automatically
+select Emp_id, emp_Name, salary from Highsalary_emp;
+
+-- Drop view 
+-- drop view Highsalary_emp;
