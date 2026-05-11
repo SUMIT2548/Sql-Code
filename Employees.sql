@@ -443,7 +443,7 @@ on a.referred_by_id = b.Emp_id;
 select 
 a.Emp_id,
 a.emp_Name as name,
-a.emp_name as referred_by_name,
+b.emp_name as referred_by_name,
 a.referred_by_id as Empid 
 from 
 employees a inner join employees b
@@ -451,6 +451,7 @@ on a.referred_by_id = b.Emp_id;
 
 -- MySQL Views 
 -- A view in Mysql is a virtual table base on the result of a select query.
+use user_details;
 select * from employees;
 
 -- Creating a View 
@@ -470,3 +471,58 @@ select Emp_id, emp_Name, salary from Highsalary_emp;
 
 -- Drop view 
 -- drop view Highsalary_emp;
+
+-- MYSQL index
+select * from employees;
+
+-- Viewing indexes on a table 
+show indexes from employees;
+
+-- creating single-column index 
+create index idx_mail on employees(email_id);
+
+select * from employees where email_id = 'nikita@example.com';
+
+-- creating multiple -column index -
+create index gen_sal on employees( gender , salary);
+
+select * from employees where gender = 'male' and salary <65000 ;
+
+show indexes from employees;
+drop index gen_sal on employees;
+
+-- Subqueries MYSQL - it is a query nested inside another query. 
+-- Example -
+select * from employees;
+select avg(salary) as emp_avg_salary from employees;
+
+-- Now subqueries example 
+select emp_id, emp_name, salary from employees
+where salary >(select avg(salary) as emp_avg_salary from employees);
+
+-- find users who have been refer by someone who earns more then 75000.--
+
+SELECT 
+    Emp_id, Emp_name, Salary, Referred_by_id
+FROM
+    employees
+WHERE
+    referred_by_id IN (SELECT 
+            emp_id
+        FROM
+            employees
+        WHERE
+            salary > 75000);
+            
+            
+SELECT 
+    Emp_id,
+    Emp_name,
+    salary,
+    (SELECT 
+            AVG(salary)
+        FROM
+            employees) AS avg_salary
+FROM
+    employees;
+    
