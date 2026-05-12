@@ -78,20 +78,76 @@ SELECT
 FROM
     employees a
         INNER JOIN
-    employees b ON a.referred_by_id = b.emp_id;
+    employees b 
+    ON a.referred_by_id = b.emp_id;
  
  use user_details;
  select * from empaddress;
  
  -- MySql Views 
- create view Emp_address as 
- select * from empaddress where state = 'West Bengal';
+ 
+ create view Emp_address as select * from empaddress where state = 'West Bengal';
  
  select * from Emp_address;
  
  update empaddress set street = 'Collage Street', city ='kolkata', state = 'West Bengal', pincode = 700020 where id = 3 ;
- 
  select * from Emp_address;
  
  drop view emp_address;
  
+ -- MYSQL Indexs
+ 
+ use  user_details;
+ select * from employees;
+ 
+ show indexes from employees;
+ 
+ create index Namesal_idx on employees(emp_name, salary);
+ show indexes from employees;
+ 
+ select * from employees where salary < 65000; 
+ drop index namesal_idx on employees;
+ 
+ 
+ -- Subquery MYSQL
+ select * from employees;
+ -- -- find users who have been refer by someone who earns more then 75000.--
+ SELECT 
+    Emp_id, emp_name, salary, referred_by_id
+FROM
+    employees
+WHERE
+    referred_by_id IN (SELECT 
+            emp_id
+        FROM
+            employees
+        WHERE
+            salary > 74000); 
+ 
+ -- shows each users salary along with overall average. 
+SELECT 
+    Emp_id,
+    emp_name,
+    salary,
+    (SELECT 
+            AVG(salary)
+        FROM
+            employees) AS avg_salary
+FROM
+    employees; 
+    
+  -- -- find users who have been refer by someone who earns more then 75000 and show name .--
+  SELECT 
+    a.Emp_id,
+    a.emp_Name,
+    a.salary,
+    a.referred_by_id,
+    b.emp_name AS Referred_Name,
+    b.salary AS referred_person_salary
+FROM
+    employees a
+        JOIN
+    employees b 
+    ON a.referred_by_id = b.emp_id
+WHERE
+    b.salary > 74000;

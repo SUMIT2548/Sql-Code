@@ -526,3 +526,25 @@ SELECT
 FROM
     employees;
     
+-- MYSQL Group BY and Having ----
+
+select * from employees;
+
+-- Group by example : Average salary by Gender
+select gender, avg(salary) as Avg_salary from employees group by gender;  
+
+-- count example --
+select gender , avg(salary) as avg_salary, count(*) as Total_employees from employees group by gender;
+
+-- with null value 
+select referred_by_id, count(*) from employees group by referred_by_id ;
+
+-- without null value 
+SELECT 
+    referred_by_id, COUNT(*)
+FROM
+    employees
+WHERE
+    referred_by_id IS NOT NULL
+GROUP BY referred_by_id;
+
