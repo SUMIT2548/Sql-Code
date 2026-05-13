@@ -527,7 +527,7 @@ FROM
     employees;
     
 -- MYSQL Group BY and Having ----
-
+use user_details;
 select * from employees;
 
 -- Group by example : Average salary by Gender
@@ -539,7 +539,7 @@ select gender , avg(salary) as avg_salary, count(*) as Total_employees from empl
 -- with null value 
 select referred_by_id, count(*) from employees group by referred_by_id ;
 
--- without null value 
+-- without null value - but we use where condition before group by. 
 SELECT 
     referred_by_id, COUNT(*)
 FROM
@@ -548,3 +548,46 @@ WHERE
     referred_by_id IS NOT NULL
 GROUP BY referred_by_id;
 
+-- when we use where condition after group by then error showing 
+select referred_by_id , count(*) as referred_count from employees 
+group by referred_by_id
+where referred_by_id is not null;
+
+-- For this issue we are using HAVING Clause --
+select referred_by_id , count(*) as total_person from employees 
+group by referred_by_id 
+having referred_by_id is null;
+
+-- we want to show genders where the average salary is greater then 70000;
+
+select gender, avg(salary) as avgsalary from employees
+group by gender 
+having avgsalary >72000;
+
+-- we want to show genders where the average salary is greater then 60000;
+
+select gender , avg(salary) as Avg_salary, count(*) from employees
+group by gender
+having Avg_salary > 61000;
+
+-- we want to show genders where the average salary is greater then 60000
+
+select gender , avg(salary) as Avg_salary, count(*) from employees
+group by gender
+having Avg_salary > 65000 and count(*) < 15 ;
+
+-- group with more than 4 referral -- 
+select referred_by_id , count(*) from employees
+where referred_by_id is not null
+group by referred_by_id
+having count(*) > 4;
+
+-- rollup - to get subtotals and grand totals, you can use ROLLUP
+
+SELECT 
+    gender,
+    AVG(salary) AS avg_salary,
+    COUNT(*) AS Total_refer
+FROM employees
+GROUP BY gender WITH ROLLUP
+HAVING AVG(salary) > 65000;
