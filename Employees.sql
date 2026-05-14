@@ -527,6 +527,7 @@ FROM
     employees;
     
 -- MYSQL Group BY and Having ----
+
 use user_details;
 select * from employees;
 
@@ -591,3 +592,7 @@ SELECT
 FROM employees
 GROUP BY gender WITH ROLLUP
 HAVING AVG(salary) > 65000;
+
+-- 
+
+
