@@ -143,7 +143,7 @@ SELECT * FROM Employees LIMIT 10 OFFSET 5; -- Skip first 5 rows, then get next 1
 
 
 -- UPDATE - Modifying Existing Data
--- basic Syntax -- update table name set column = values where column = values;   
+-- basic Syntax -- update table name set column name = values where column name = values;   
 use user_details;
 select * from employees ;
 
@@ -277,19 +277,20 @@ select Emp_id, emp_name, gender,
 from Employees;
 
 -- MySQL Transactions and AutoCommit 
--- insert into employees ( Emp_name, email_id, gender, salary, Date_of_birth) values('Amaal', 'amaal@example.com', 'male', '68000.00','2000-12-04');
--- select * from Employees;
+ insert into employees ( Emp_name, email_id, gender, salary, Date_of_birth)
+ values('Amaal', 'amaal@example.com', 'male', '68000.00','2000-12-04');
+select * from Employees;
 
 -- 1. Disabling AutoCommit :
  set autocommit = 0;
  
 --  2) ROLLBACK — Revert Changes to the Last Safe Point 
- delete from employees where Emp_id = 30;
+ delete from employees where Emp_id = 31;
  ROLLBACK;
  select * from employees;
  
  --  3. COMMIT — Save Changes to the Database
-delete from employees where Emp_id = 30;
+delete from employees where Emp_id = 31;
  commit;
  select * from employees;
  
@@ -403,7 +404,8 @@ order by salary desc ;
 -- use user_details;
 -- select * from employees;
 -- add duplicate data both table (emoloyees and admin_users)
-insert into employees ( Emp_name, Email_id, Gender, Salary, Date_of_Birth) value ('Sumit saha','Sumit@example.com','Male','65000.00','1998-06-30');
+delete from employees where emp_id = 33;
+insert into employees ( Emp_id,Emp_name, Email_id, Gender, Salary, Date_of_Birth) value ( 31,'Sumit saha','Sumit@example.com','Male','65000.00','1998-06-30');
 
 -- UNION -   Combines results, removes duplicates
 select Emp_id , Emp_name, salary, 'Employees' as role from Employees
@@ -428,13 +430,13 @@ alter table employees add column referred_by_id int;
 update employees set referred_by_id = 1 where emp_id in (3,5,7,9,11,13,15,17) ; 
 update employees set referred_by_id = 4 where emp_id in(10,16,18,20,22); -- Emp 4 referred emp 10,16,18,......
 update employees set referred_by_id = 20 where emp_id = 28; -- Emp 20 referred emp 28
-select * from employees;
+select * from employees; 
 
 -- Step 3: Use a Self JOIN to Get Referrer Names using inner join 
 Select 
 a.Emp_id,
 a.Emp_Name as EmpName,
-b.emp_Name as Referred_by_Name 
+b.Emp_Name as Referred_by_Name 
 from 
 employees a inner join employees b
 on a.referred_by_id = b.Emp_id;
@@ -491,7 +493,9 @@ select * from employees where gender = 'male' and salary <65000 ;
 show indexes from employees;
 drop index gen_sal on employees;
 
+
 -- Subqueries MYSQL - it is a query nested inside another query. 
+
 -- Example -
 select * from employees;
 select avg(salary) as emp_avg_salary from employees;
@@ -500,21 +504,36 @@ select avg(salary) as emp_avg_salary from employees;
 select emp_id, emp_name, salary from employees
 where salary >(select avg(salary) as emp_avg_salary from employees);
 
--- find users who have been refer by someone who earns more then 75000.--
+-- find users who have been refer by someone who earns more then equal 75000.--
+
+--  select count(referred_by_id) as total_refer_emp from employees;
 
 SELECT 
-    Emp_id, Emp_name, Salary, Referred_by_id
+    Emp_id, Emp_name, Referred_by_id
 FROM
     employees
 WHERE
     referred_by_id IN (SELECT 
-            emp_id
+            emp_id 
         FROM
             employees
         WHERE
-            salary > 75000);
+            salary >= 75000);
             
-            
+ -- find users who have been refer by someone who earns more then 74000 and show name .-- 
+ SELECT 
+    a.emp_id,
+    a.emp_name,
+    a.referred_by_id,
+    b.emp_name AS referred_person_name,
+    b.salary AS referred_person_salary
+FROM
+    employees a
+        INNER JOIN
+    employees b ON a.referred_by_id = b.emp_id
+WHERE
+    b.salary > 74000;
+ 
 SELECT 
     Emp_id,
     Emp_name,
@@ -525,6 +544,7 @@ SELECT
             employees) AS avg_salary
 FROM
     employees;
+    
     
 -- MYSQL Group BY and Having ----
 
@@ -588,11 +608,11 @@ having count(*) > 4;
 SELECT 
     gender,
     AVG(salary) AS avg_salary,
-    COUNT(*) AS Total_refer
+    COUNT(*) AS Total_Emp
 FROM employees
 GROUP BY gender WITH ROLLUP
-HAVING AVG(salary) > 65000;
+HAVING AVG(salary) > 50000;
 
--- 
+
 
 

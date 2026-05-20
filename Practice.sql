@@ -107,13 +107,15 @@ FROM
  
  select * from employees where salary < 65000; 
  drop index namesal_idx on employees;
+  show indexes from employees;
  
  
  -- Subquery MYSQL
+ 
  select * from employees;
  -- -- find users who have been refer by someone who earns more then 75000.--
  SELECT 
-    Emp_id, emp_name, salary, referred_by_id
+    Emp_id, emp_name, referred_by_id
 FROM
     employees
 WHERE
@@ -136,11 +138,10 @@ SELECT
 FROM
     employees; 
     
-  -- -- find users who have been refer by someone who earns more then 75000 and show name .--
+  -- -- find users who have been refer by someone who earns more then 74000 and show name .--
   SELECT 
     a.Emp_id,
     a.emp_Name,
-    a.salary,
     a.referred_by_id,
     b.emp_name AS Referred_Name,
     b.salary AS referred_person_salary
@@ -151,3 +152,5 @@ FROM
     ON a.referred_by_id = b.emp_id
 WHERE
     b.salary > 74000;
+    
+    

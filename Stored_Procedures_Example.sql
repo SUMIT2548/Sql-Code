@@ -30,7 +30,7 @@ begin
       values ( UserName, Email, gender, DOB, Salary);
        select * from Employees ;
 End$$
-Delimiter 
+Delimiter ; 
 
 -- calling the procedure 
 CALL addUser( 'Susmita saha','susmita@example.com', 'Female','1994-05-15', 75000);
