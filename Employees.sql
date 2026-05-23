@@ -613,6 +613,24 @@ FROM employees
 GROUP BY gender WITH ROLLUP
 HAVING AVG(salary) > 50000;
 
+-- more on Mysql--
 
+select * from employees;
 
+-- update employees set Emp_id = 30 where emp_name = 'sumit saha';
+update employees set emp_id = 34 where emp_name = 'susmita saha';
+update employees set emp_id = 35 where emp_name = 'debanjan';
 
+-- Logical Operators - AND, OR , NOT 
+select * from employees where gender = 'male' and salary > 70000;
+select * from employees where gender = 'others' or salary >  65000;
+
+-- Add column to existing table
+alter table employees add column city varchar(100) not null ;
+select * from employees ;
+alter table employees drop column city ; 
+
+-- Wildcard operators - % , _
+select * from employees where emp_name like 'A%';  -- start with alter alter A  
+select emp_name from employees where emp_name like '_A%' ;  -- second letter is a 
+select emp_name from employees where emp_name like '_a_h%' ;  -- second letter is a , fourth letter h 

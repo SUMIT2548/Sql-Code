@@ -1,7 +1,6 @@
 use user_details;
 select * from employees;
-update employees set emp_id = 30 where emp_name = 'sumit';
-update employees set emp_id = 31 where emp_name = 'susmita';
+
 
 -- Triggers in Mysql ---
 
