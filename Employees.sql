@@ -614,18 +614,18 @@ GROUP BY gender WITH ROLLUP
 HAVING AVG(salary) > 50000;
 
 -- more on Mysql--
-
+use user_details;
 select * from employees;
-
 -- update employees set Emp_id = 30 where emp_name = 'sumit saha';
-update employees set emp_id = 34 where emp_name = 'susmita saha';
-update employees set emp_id = 35 where emp_name = 'debanjan';
+-- update employees set emp_id = 34 where emp_name = 'susmita saha';
+-- update employees set emp_id = 35 where emp_name = 'debanjan';
 
 -- Logical Operators - AND, OR , NOT 
 select * from employees where gender = 'male' and salary > 70000;
 select * from employees where gender = 'others' or salary >  65000;
+select * from employees where not gender = 'male';
 
--- Add column to existing table
+-- Add , drop column to existing table
 alter table employees add column city varchar(100) not null ;
 select * from employees ;
 alter table employees drop column city ; 
@@ -634,3 +634,36 @@ alter table employees drop column city ;
 select * from employees where emp_name like 'A%';  -- start with alter alter A  
 select emp_name from employees where emp_name like '_A%' ;  -- second letter is a 
 select emp_name from employees where emp_name like '_a_h%' ;  -- second letter is a , fourth letter h 
+
+-- Limit with Offset 
+-- limit is used to limit the number of rows returned. OFFSET skips a number of rows before starting to return rows.
+
+-- show 2nd Highest salary
+-- select * from employees order by salary DESC limit 5;  -- check top 5 highest salary 
+select * from employees order by salary DESC limit 1 offset 1; 
+
+select * from employees limit 15 offset 10 ; -- this skips the first 10 rows and returns the next 5 
+-- alternative syntax 
+select * from employees limit 10, 15; -- this is skips 10 and returns 5.alter
+
+
+-- DISTINCT keyword
+-- In SQL, DISTINCT is used to remove duplicate values from the result of a SELECT query.
+select distinct salary from employees;  
+select distinct city from empaddress; 
+
+
+-- truncate keyword --
+-- truncate removes all rows from a table , but keeps the table structure.
+truncate table employees ;  -- donot run this 
+
+
+-- rename vs modify colume 
+
+alter table employees change column salary  emp_salary decimal(10,2);
+select * from employees;  
+alter table employees rename column emp_salary to salary ;
+
+-- modify 
+alter table employees modify  emp_name varchar(200);
+
