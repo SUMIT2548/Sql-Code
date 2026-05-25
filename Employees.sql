@@ -658,7 +658,7 @@ select distinct city from empaddress;
 truncate table employees ;  -- donot run this 
 
 
--- rename vs modify colume 
+-- rename vs change colume 
 
 alter table employees change column salary  emp_salary decimal(10,2);
 select * from employees;  
