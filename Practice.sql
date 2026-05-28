@@ -153,4 +153,44 @@ FROM
 WHERE
     b.salary > 74000;
     
+-- Let say we want to find users who have been referred by someone who earns less than 68000 and show referred person name 
+use user_details;
+select * from employees;
+   
+SELECT 
+    a.emp_id,
+    a.emp_name,
+    a.referred_by_id,
+    b.salary AS refer_person_salary,
+    b.emp_name AS person_name
+FROM
+    employees a
+        INNER JOIN
+    employees b ON a.referred_by_id = b.emp_id
+WHERE
+    a.referred_by_id IN (SELECT emp_id FROM employees
+        WHERE salary > 68000);
+        
+-- example ( show the employees salary difference between avg. salary) 
+SELECT 
+    Emp_name,
+    salary,
+    (SELECT AVG(salary) FROM employees) AS total_avg_salary,
+    salary - (SELECT AVG(salary) FROM employees) AS difference_salary_every_emp
+FROM
+    employees;
+    
+    -- example :  Group by and Having in mysql -- 
+    -- Average salary by Gender 
+    select gender , avg(salary) as Average_Salary from employees
+    group by gender ;
+    
+	-- Find how many users were referred by each user:
+    select referred_by_id, count(emp_id) from employees 
+    group by referred_by_id;
+    
+	-- without Null value 
+    select referred_by_id, count(emp_id) from employees
+    where referred_by_id is not null 
+    group by referred_by_id;
     
