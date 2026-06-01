@@ -180,7 +180,8 @@ SELECT
 FROM
     employees;
     
-    -- example :  Group by and Having in mysql -- 
+    -- example :  Group by and Having in mysql --
+    
     -- Average salary by Gender 
     select gender , avg(salary) as Average_Salary from employees
     group by gender ;
@@ -189,8 +190,29 @@ FROM
     select referred_by_id, count(emp_id) from employees 
     group by referred_by_id;
     
-	-- without Null value 
+	-- without Null value using where 
     select referred_by_id, count(emp_id) from employees
     where referred_by_id is not null 
     group by referred_by_id;
+    
+    -- use user_details;
+    -- select * from employees;
+    
+    -- Find how many users were referred by each user 
+    select referred_by_id , count(*) from employees 
+    group by referred_by_id
+    having referred_by_id is not null;
+    
+    -- we only want to genders where the average salary is greater than 70000
+    select gender , avg(salary) as avg_salary 
+    from employees 
+    group by gender 
+    having avg_salary > 65000;
+    
+    -- Eaxmple - we want group with more than 3 referral
+    select referred_by_id, count(*) as total_Emp
+    from employees 
+    where referred_by_id is not null 
+    group by referred_by_id 
+    having total_Emp >3;
     
